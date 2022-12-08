@@ -9,9 +9,9 @@ assignees = {
     "yonka2019": "יונתן"
 }
 
-gl = gitlab.Gitlab(private_token='glpat-MsKuF3VDgXm3NXbcSrtn')
+gl = gitlab.Gitlab(private_token='token')
 issues = gl.issues.list(get_all=True)
-project = gl.projects.get(39312664)
+project = gl.projects.get(id)
 
 printed = False
 
