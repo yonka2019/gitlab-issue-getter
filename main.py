@@ -11,7 +11,7 @@ assignees = {
 
 gl = gitlab.Gitlab(private_token='token')
 issues = gl.issues.list(get_all=True)
-project = gl.projects.get(id)
+project = gl.projects.get(project_id)
 
 printed = False
 
