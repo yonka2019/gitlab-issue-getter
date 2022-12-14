@@ -44,5 +44,6 @@ def next_weekday(date, day):
     days = (day - date.weekday() + 7) % 7
     return date + datetime.timedelta(days=days)
 
+
 if __name__ == '__main__':
     main()
