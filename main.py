@@ -8,7 +8,7 @@ def main():
     from_date = (lesson_date - datetime.timedelta(days=7))  # - 7 days from now
     to_date = (lesson_date + datetime.timedelta(days=7))  # + 7 days from now
 
-    print(f"\n[i] FROM DATE: {from_date.date()} -> [{lesson_date.date()}] -> {to_date.date()}\n")
+    print(f"\n[i] {from_date.date()} -> [{lesson_date.date()}] -> {to_date.date()}\n")
 
     assignees = {
         "EyalSol": "איל",
