@@ -27,7 +27,7 @@ def main():
 
             if from_date <= due_date <= to_date:
                 if (due_date <= lesson_date) and not printed:  # print only one time
-                    print("-- DONE --")
+                    print("\n-- DONE --")
                     printed = True
 
                 print(issue.title + " [" + due_date.strftime("%d.%m") + "] - " + assignees[issue.assignee["username"]] + " :אחראי ")
