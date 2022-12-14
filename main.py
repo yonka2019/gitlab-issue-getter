@@ -15,7 +15,7 @@ def main():
         "yonka2019": "יונתן"
     }
 
-    gl = gitlab.Gitlab(private_token='glpat-MsKuF3VDgXm3NXbcSrtn')
+    gl = gitlab.Gitlab(private_token='TOKEN')
     project = gl.projects.get(39312664)
 
     printed = False
