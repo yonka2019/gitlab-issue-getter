@@ -3,7 +3,7 @@ import datetime
 
 
 def main():
-    lesson_date = next_weekday(datetime.datetime.now(), 3)  # 0 - monday
+    lesson_date = next_weekday(datetime.datetime.now(), 3)  # (, 0 - monday) ; closest thursday (lesson day)
 
     from_date = (lesson_date - datetime.timedelta(days=7))  # - 7 days from now
     to_date = (lesson_date + datetime.timedelta(days=7))  # + 7 days from now
@@ -16,7 +16,7 @@ def main():
     }
 
     gl = gitlab.Gitlab(private_token='TOKEN')
-    project = gl.projects.get(39312664)
+    project = gl.projects.get(PROJECT ID)
 
     printed = False
 
@@ -30,7 +30,7 @@ def main():
                     print("\n-- DONE --")
                     printed = True
 
-                print(issue.title + " [" + due_date.strftime("%d.%m") + "] - " + assignees[issue.assignee["username"]] + " :אחראי ")
+                print(issue.title + " [" + due_date.strftime("%d.%m") + "] - " + assignees[issue.assignee["username"]] + " :אחראי " + "(" + issue.time_stats()["human_time_estimate"] + ")")
 
 
 def next_weekday(date, day):
@@ -38,7 +38,7 @@ def next_weekday(date, day):
     Returns the date of the next given weekday after
     the given date. For example, the date of next Monday.
 
-    NB: if it IS the day we're looking for, this returns 0.
+    NB: if it IS the day we're looking for, this returns 0. (nothing change)
     consider then doing onDay(foo, day + 1).
     """
     days = (day - date.weekday() + 7) % 7
