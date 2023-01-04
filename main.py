@@ -40,18 +40,18 @@ def main():
                     printed = True
 
                 try:
-                    print_issue(issue, due_date, ASSIGNEES)
+                    print_issue(issue, due_date)
                 except:
                     print("(ERROR) [Title] OR [Assignee] OR [Time estimate] is not configured")
 
 
-def print_issue(issue, due_date, assignees):
+def print_issue(issue, due_date):
 
     if "Bug" in issue.labels:  # check if BUG label setted
         print("[BUG]", end=" ")
 
     print(issue.title +
-          " [" + due_date.strftime("%d.%m") + "] - " + assignees[issue.assignee["username"]] + " :אחראי " + "(" +
+          " [" + due_date.strftime("%d.%m") + "] - " + ASSIGNEES[issue.assignee["username"]] + " :אחראי " + "(" +
           issue.time_stats()["human_time_estimate"] + ")")
 
 
