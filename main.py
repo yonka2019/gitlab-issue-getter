@@ -1,22 +1,31 @@
 import gitlab
 import datetime
 
+# GitLab Constants
+PRIVATE_TOKEN = ''
+PROJECT_ID = 0
+ASSIGNEES = {
+    "EyalSol": "איל",
+    "yonka2019": "יונתן"
+}
+
+# Project Constants
+LESSON_DAY = 3  # 0 - Monday, 1 - Thursday ..
+
 
 def main():
-    lesson_date = next_weekday(datetime.datetime.now(), 3)  # (, 0 - monday) ; closest thursday (lesson day)
 
-    from_date = (lesson_date - datetime.timedelta(days=7))  # - 7 days from now
-    to_date = (lesson_date + datetime.timedelta(days=7))  # + 7 days from now
+    lesson_date = next_weekday(datetime.datetime.now(), LESSON_DAY)  # (, 0 - monday) ; closest thursday (lesson day)
 
-    print(f"\n[i] {from_date.date()} -> [{lesson_date.date()}] -> {to_date.date()}\n")
+    from_date = (lesson_date - datetime.timedelta(days=7))  # - 7 days from the closest lesson day
+    to_date = (lesson_date + datetime.timedelta(days=7))  # + 7 days from the closest lesson day
 
-    assignees = {
-        "EyalSol": "איל",
-        "yonka2019": "יונתן"
-    }
+    print(f"\n{from_date.date().strftime('%d-%m-%Y')} -> "  # LAST LESSON
+          f"[{lesson_date.date().strftime('%d-%m-%Y')}] -> "  # CLOSEST LESSON (OR CURRENT)
+          f"{to_date.date().strftime('%d-%m-%Y')}\n")  # NEXT LESSON
 
-    gl = gitlab.Gitlab(private_token='TOKEN')
-    project = gl.projects.get(PROJECT ID)
+    gl = gitlab.Gitlab(private_token=PRIVATE_TOKEN)
+    project = gl.projects.get(PROJECT_ID)
 
     printed = False
 
@@ -30,7 +39,20 @@ def main():
                     print("\n-- DONE --")
                     printed = True
 
-                print(issue.title + " [" + due_date.strftime("%d.%m") + "] - " + assignees[issue.assignee["username"]] + " :אחראי " + "(" + issue.time_stats()["human_time_estimate"] + ")")
+                try:
+                    print_issue(issue, due_date, ASSIGNEES)
+                except:
+                    print("(ERROR) [Title] OR [Assignee] OR [Time estimate] is not configured")
+
+
+def print_issue(issue, due_date, assignees):
+
+    if "Bug" in issue.labels:  # check if BUG label setted
+        print("[BUG]", end=" ")
+
+    print(issue.title +
+          " [" + due_date.strftime("%d.%m") + "] - " + assignees[issue.assignee["username"]] + " :אחראי " + "(" +
+          issue.time_stats()["human_time_estimate"] + ")")
 
 
 def next_weekday(date, day):
