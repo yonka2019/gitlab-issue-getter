@@ -3,7 +3,7 @@ import datetime
 
 # GitLab Constants
 PRIVATE_TOKEN = ''
-PROJECT_ID = 0
+PROJECT_ID =
 ASSIGNEES = {
     "EyalSol": "איל",
     "yonka2019": "יונתן"
@@ -14,15 +14,12 @@ LESSON_DAY = 3  # 0 - Monday, 1 - Thursday ..
 
 
 def main():
+    closest_lesson_date = next_weekday(datetime.datetime.now(), LESSON_DAY)  # (, 0 - monday) ; closest thursday (lesson day)
 
-    lesson_date = next_weekday(datetime.datetime.now(), LESSON_DAY)  # (, 0 - monday) ; closest thursday (lesson day)
+    last_lesson_date = (closest_lesson_date - datetime.timedelta(days=7))  # - 7 days from the closest lesson day
+    next_lesson_date = (closest_lesson_date + datetime.timedelta(days=7))  # + 7 days from the closest lesson day
 
-    from_date = (lesson_date - datetime.timedelta(days=7))  # - 7 days from the closest lesson day
-    to_date = (lesson_date + datetime.timedelta(days=7))  # + 7 days from the closest lesson day
-
-    print(f"\n{from_date.date().strftime('%d-%m-%Y')} -> "  # LAST LESSON
-          f"[{lesson_date.date().strftime('%d-%m-%Y')}] -> "  # CLOSEST LESSON (OR CURRENT)
-          f"{to_date.date().strftime('%d-%m-%Y')}\n")  # NEXT LESSON
+    print_lessons(last_lesson_date, closest_lesson_date, next_lesson_date)
 
     gl = gitlab.Gitlab(private_token=PRIVATE_TOKEN)
     project = gl.projects.get(PROJECT_ID)
@@ -34,8 +31,8 @@ def main():
         if issue.due_date is not None:
             due_date = datetime.datetime.strptime(issue.due_date, '%Y-%m-%d')
 
-            if from_date <= due_date <= to_date:
-                if (due_date <= lesson_date) and not printed:  # print only one time
+            if last_lesson_date <= due_date <= next_lesson_date:
+                if (due_date <= closest_lesson_date) and not printed:  # print only one time
                     print("\n-- DONE --")
                     printed = True
 
@@ -43,6 +40,17 @@ def main():
                     print_issue(issue, due_date)
                 except:
                     print("(ERROR) [Title] OR [Assignee] OR [Time estimate] is not configured")
+
+
+def print_lessons(last_lesson, closest_lesson, next_lesson):
+
+    print(f"\nLAST LESSON  "
+          f"CLOSEST LESSON   "
+          f"NEXT LESSON")
+
+    print(f"{last_lesson.date().strftime('%d-%m-%Y')} -> "  # LAST LESSON
+          f"[{closest_lesson.date().strftime('%d-%m-%Y')}] -> "  # CLOSEST LESSON (OR CURRENT)
+          f"{next_lesson.date().strftime('%d-%m-%Y')}\n")  # NEXT LESSON
 
 
 def print_issue(issue, due_date):
