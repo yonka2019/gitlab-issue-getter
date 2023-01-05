@@ -3,7 +3,7 @@ import datetime
 
 # GitLab Constants
 PRIVATE_TOKEN = ''
-PROJECT_ID =
+PROJECT_ID = 0
 ASSIGNEES = {
     "EyalSol": "איל",
     "yonka2019": "יונתן"
@@ -39,7 +39,7 @@ def main():
                 try:
                     print_issue(issue, due_date)
                 except:
-                    print("(ERROR) [Title] OR [Assignee] OR [Time estimate] is not configured")
+                    print("### (ERROR) [Title] OR [Assignee] OR [Time estimate] is not configured ###")
 
 
 def print_lessons(last_lesson, closest_lesson, next_lesson):
