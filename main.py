@@ -10,14 +10,16 @@ ASSIGNEES = {
 }
 
 # Project Constants
+LAST_LESSON_DAYS = 7  # [LAST LESSON] {->} CLOSEST LESSON -> NEXT LESSON    ({days number})
+NEXT_LESSON_DAYS = 7  # LAST LESSON -> CLOSEST LESSON {->} [NEXT LESSON]    ({days number})
 LESSON_DAY = 3  # 0 - Monday, 1 - Thursday ..
 
 
 def main():
     closest_lesson_date = next_weekday(datetime.datetime.now(), LESSON_DAY)  # (, 0 - monday) ; closest thursday (lesson day)
 
-    last_lesson_date = (closest_lesson_date - datetime.timedelta(days=7))  # - 7 days from the closest lesson day
-    next_lesson_date = (closest_lesson_date + datetime.timedelta(days=7))  # + 7 days from the closest lesson day
+    last_lesson_date = (closest_lesson_date - datetime.timedelta(days=LAST_LESSON_DAYS))  # - 7 days from the closest lesson day
+    next_lesson_date = (closest_lesson_date + datetime.timedelta(days=NEXT_LESSON_DAYS))  # + 7 days from the closest lesson day
 
     print_lessons(last_lesson_date, closest_lesson_date, next_lesson_date)
 
