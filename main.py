@@ -5,14 +5,13 @@ import datetime
 PRIVATE_TOKEN = ''
 PROJECT_ID = 0
 ASSIGNEES = {
-    "EyalSol": "איל",
-    "yonka2019": "יונתן"
+
 }
 
 # Project Constants
 LAST_LESSON_DAYS = 7  # [LAST LESSON] {->} CLOSEST LESSON -> NEXT LESSON    ({days number})
 NEXT_LESSON_DAYS = 7  # LAST LESSON -> CLOSEST LESSON {->} [NEXT LESSON]    ({days number})
-LESSON_DAY = 3  # 0 - Monday, 1 - Thursday ..
+LESSON_DAY = 3  # (Thursday) ; 0 - Monday, 1 - Tuesday 2 - Wednesday, ..
 
 
 def main():
