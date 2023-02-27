@@ -1,21 +1,34 @@
 import gitlab
 import datetime
+import enum
 
 # GitLab Constants
 PRIVATE_TOKEN = ''
 PROJECT_ID = 0
 ASSIGNEES = {
-
+    "user1": "name1",
+    "user2": "name2"
 }
+
+
+class Days(enum.Enum):
+    SUNDAY = 6
+    MONDAY = 0
+    TUESDAY = 1
+    WEDNESDAY = 2
+    THURSDAY = 3
+    FRIDAY = 4
+    SATURDAY = 5
+
 
 # Project Constants
 LAST_LESSON_DAYS = 7  # [LAST LESSON] {->} CLOSEST LESSON -> NEXT LESSON    ({days number})
 NEXT_LESSON_DAYS = 7  # LAST LESSON -> CLOSEST LESSON {->} [NEXT LESSON]    ({days number})
-LESSON_DAY = 3  # (Thursday) ; 0 - Monday, 1 - Tuesday 2 - Wednesday, ..
+LESSON_DAY = Days.THURSDAY
 
 
 def main():
-    closest_lesson_date = next_weekday(datetime.datetime.now(), LESSON_DAY)  # (, 0 - monday) ; closest thursday (lesson day)
+    closest_lesson_date = next_weekday(datetime.datetime.now(), LESSON_DAY.value)  # (, 0 - monday) ; closest thursday (lesson day)
 
     last_lesson_date = (closest_lesson_date - datetime.timedelta(days=LAST_LESSON_DAYS))  # - 7 days from the closest lesson day
     next_lesson_date = (closest_lesson_date + datetime.timedelta(days=NEXT_LESSON_DAYS))  # + 7 days from the closest lesson day
@@ -40,7 +53,7 @@ def main():
                 try:
                     print_issue(issue, due_date)
                 except:
-                    print("### (ERROR) [Title] OR [Assignee] OR [Time estimate] is not configured ###")
+                    print("### ERROR: [Title] OR [Assignee] OR [Time estimate] is not configured ###")
 
 
 def print_lessons(last_lesson, closest_lesson, next_lesson):
